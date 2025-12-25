@@ -14,7 +14,6 @@ public class Main {
         song1.showInfo();
         song2.showInfo();
 
-        // compare multiple objects
         if (song2.isLongerThan(song1)) {
             System.out.println(song2.getTitle() + " is longer than " + song1.getTitle());
         } else {
@@ -26,8 +25,17 @@ public class Main {
         playlist.addSong(song2);
 
         playlist.showPlaylist();
+
+        System.out.println("\nAfter sorting:");
+        playlist.sortByDuration();
+        playlist.showPlaylist();
+
+        System.out.println("\nSearch result:");
+        System.out.println(playlist.searchByTitle("Hello"));
+
+        System.out.println("\nFiltered songs (>=250 seconds):");
+        for (Song s : playlist.filterByDuration(250)) {
+            s.showInfo();
+        }
     }
 }
-
-
-
