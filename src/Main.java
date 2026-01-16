@@ -1,41 +1,30 @@
+import java.sql.*;
+
 public class Main {
 
     public static void main(String[] args) {
+        try (Connection conn = DatabaseConnection.connect()) {
 
-        Artist artist1 = new Artist("Jay Chou");
-        Artist artist2 = new Artist("Adele");
+            // WRITE
+            conn.createStatement().executeUpdate(
+                    "INSERT INTO Artist(name) VALUES ('Coldplay')");
 
-        artist1.showInfo();
-        artist2.showInfo();
+            // READ
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Artist");
+            while (rs.next()) {
+                System.out.println(rs.getInt("id") + " " + rs.getString("name"));
+            }
 
-        Song song1 = new Song("Blue and White Porcelain", artist1, 240);
-        Song song2 = new Song("Hello", artist2, 300);
+            // UPDATE
+            conn.createStatement().executeUpdate(
+                    "UPDATE Artist SET name='Coldplay Band' WHERE name='Coldplay'");
 
-        song1.showInfo();
-        song2.showInfo();
+            // DELETE
+            conn.createStatement().executeUpdate(
+                    "DELETE FROM Artist WHERE name='Coldplay Band'");
 
-        if (song2.isLongerThan(song1)) {
-            System.out.println(song2.getTitle() + " is longer than " + song1.getTitle());
-        } else {
-            System.out.println(song1.getTitle() + " is longer than " + song2.getTitle());
-        }
-
-        Playlist playlist = new Playlist("My Playlist");
-        playlist.addSong(song1);
-        playlist.addSong(song2);
-
-        playlist.showPlaylist();
-
-        System.out.println("\nAfter sorting:");
-        playlist.sortByDuration();
-        playlist.showPlaylist();
-
-        System.out.println("\nSearch result:");
-        System.out.println(playlist.searchByTitle("Hello"));
-
-        System.out.println("\nFiltered songs (>=250 seconds):");
-        for (Song s : playlist.filterByDuration(250)) {
-            s.showInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

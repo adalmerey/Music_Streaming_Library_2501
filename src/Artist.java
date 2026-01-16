@@ -1,9 +1,9 @@
-public class Artist {
+import java.util.Objects;
 
-    private String name;
+public class Artist extends MediaItem {
 
     public Artist(String name) {
-        this.name = name;
+        super(name);
     }
 
     public String getName() {
@@ -14,7 +14,26 @@ public class Artist {
         this.name = name;
     }
 
+    @Override
     public void showInfo() {
         System.out.println("Artist name: " + name);
+    }
+
+    @Override
+    public String toString() {
+        return "Artist{name='" + name + "'}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Artist)) return false;
+        Artist other = (Artist) obj;
+        return Objects.equals(name, other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

@@ -1,21 +1,22 @@
-public class Song {
+import java.util.Objects;
 
-    private String title;
+public class Song extends MediaItem {
+
     private Artist artist;
-    private int duration; // seconds
+    private int duration;
 
     public Song(String title, Artist artist, int duration) {
-        this.title = title;
+        super(title);
         this.artist = artist;
         this.duration = duration;
     }
 
     public String getTitle() {
-        return title;
+        return name;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.name = title;
     }
 
     public Artist getArtist() {
@@ -34,16 +35,34 @@ public class Song {
         this.duration = duration;
     }
 
+    @Override
     public void showInfo() {
-        System.out.println(
-                "Song: " + title +
-                        ", Artist: " + artist.getName() +
-                        ", Duration: " + duration + " seconds"
-        );
+        System.out.println("Song: " + name +
+                ", Artist: " + artist.getName() +
+                ", Duration: " + duration + " seconds");
     }
 
-    // compare multiple objects
     public boolean isLongerThan(Song otherSong) {
         return this.duration > otherSong.duration;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{title='" + name + "', artist=" + artist + ", duration=" + duration + "}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Song)) return false;
+        Song other = (Song) obj;
+        return duration == other.duration &&
+                Objects.equals(name, other.name) &&
+                Objects.equals(artist, other.artist);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, artist, duration);
     }
 }

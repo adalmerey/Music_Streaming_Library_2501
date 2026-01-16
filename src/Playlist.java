@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Playlist {
 
@@ -8,14 +8,6 @@ public class Playlist {
     public Playlist(String name) {
         this.name = name;
         songs = new ArrayList<>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void addSong(Song song) {
@@ -28,5 +20,30 @@ public class Playlist {
             song.showInfo();
         }
     }
-}
 
+    // 🔍 Searching
+    public Song searchByTitle(String title) {
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(title)) {
+                return song;
+            }
+        }
+        return null;
+    }
+
+    // 🧹 Filtering
+    public ArrayList<Song> filterByDuration(int minDuration) {
+        ArrayList<Song> result = new ArrayList<>();
+        for (Song song : songs) {
+            if (song.getDuration() >= minDuration) {
+                result.add(song);
+            }
+        }
+        return result;
+    }
+
+    // 🔃 Sorting
+    public void sortByDuration() {
+        songs.sort(Comparator.comparingInt(Song::getDuration));
+    }
+}
